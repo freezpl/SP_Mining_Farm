@@ -3,8 +3,13 @@
                     xmlns:local="clr-namespace:MiningFarm.assets.styles">
 
     <Color x:Key="Back">#33BCBA</Color>
+    <Color x:Key="Marker">#197776</Color>
+    <Color x:Key="BackDar">#ffe0e0</Color>
+    <Color x:Key="DarkBack">#ffdbdb</Color>
+    <Color x:Key="LightForeground">#efffa0</Color>
 
     <SolidColorBrush x:Key="MainBack" Color="{StaticResource Back}"/>
+    <SolidColorBrush x:Key="MainBackDark" Color="{StaticResource BackDark}"/>
 
     <Style TargetType="GridSplitter">
         <Setter Property="Width" Value="5" />
@@ -14,12 +19,100 @@
         <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
 
-    <Style TargetType="Expander" BasedOn="{StaticResource MetroExpander}">
-        
+    <Style x:Key="AllText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Foreground" Value="Black" />
     </Style>
 
-    <Border x:Key="CloseBtn" Background="Black" 
-            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-    </Border>
+    <Style x:Key="TaskText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="DarkCyan" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="Header" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Padding" Value="5 0 0 0" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource LightForeground}"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource Marker}"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CloseBtn" TargetType="Button">
+        <Setter Property="Background" Value="Wheat"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="Brown"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Margin" Value="5 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border TextBlock.Foreground="White" x:Name="Border" CornerRadius="12" BorderThickness="2">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{StaticResource Back}"/>
+                        </Border.BorderBrush>
+
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource DarkBack}"/>
+                        </Border.Background>
+
+                        <Canvas Width="40" Height="24">
+                            <Ellipse  Canvas.Left="0" Canvas.Top="0" Width="20" Height="20" Name="Ellipse" 
+                                      Stroke="White" StrokeThickness="2">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush Color="{StaticResource Marker}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Canvas>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.2" />
+                                    <VisualTransition GeneratedDuration="0" To="Pressed" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal">
+                                    
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Ellipse"
+                                                         Storyboard.TargetProperty="(Canvas.Left)"
+                                                         To="0" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Ellipse"
+                                                         Storyboard.TargetProperty="(Canvas.Left)"
+                                                         To="16" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

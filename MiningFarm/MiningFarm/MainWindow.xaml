@@ -9,37 +9,110 @@
         Title="MainWindow" Height="450" Width="800" Foreground="Red">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition MinWidth="350"/>
             <ColumnDefinition Width="5" />
             <ColumnDefinition MinWidth="100"/>
         </Grid.ColumnDefinitions>
 
-        <GridSplitter Grid.Column="1"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding Cards}">
+        <GridSplitter Grid.Column="1" Grid.RowSpan="3"/>
+
+        <TextBlock Grid.Column="0" Style="{StaticResource Header}" Text="GPU:"/>
+        <TextBlock Grid.Column="2" Style="{StaticResource Header}" Text="Currency:"/>
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding Cards}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <Grid Margin="5">
+                    <StackPanel Background="Azure" Margin="0">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="20"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="1" Command="{Binding Remove}"
-                                 Content="{StaticResource CloseBtn}"/>
+                            <TextBlock Style="{StaticResource AllText}" Text="{Binding Path=Title}" />
+                            <TextBlock Grid.Column="1" Style="{StaticResource TaskText}" 
+                                       Text="{Binding ActiveTasks, StringFormat=Tasks: {0}}" />
+                            <Button Grid.Column="2"  Style="{StaticResource CloseBtn}" Command="{Binding Remove}">
+                                <Button.Content>
+                                    <Border >
+                                        <Path Width="10" Height="10" StrokeThickness="3" Data="M 0 0 L 10 10 M 0 10 L 10 0 ">
+                                            <Path.Stroke>
+                                                <SolidColorBrush Color="Red" />
+                                            </Path.Stroke>
+                                        </Path>
+                                    </Border>
+                                </Button.Content>
+                            </Button>
                         </Grid>
 
-                        <TextBlock FontSize="16" Text="{Binding Path=Title}" HorizontalAlignment="Center" />
                         <Expander Header="Currency">
-                        
+                            <ListBox ItemsSource="{Binding Currencies}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="60" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <ToggleButton Style="{StaticResource ToggleButtonStyle}" 
+                                                          Command="{Binding Start}" CommandParameter="{Binding}"/>
+                                            <!--<TextBlock Grid.Column="1" Style="{StaticResource AllText}" Text="{Binding Title}"/>-->
+                                            <TextBlock Grid.Column="1" Style="{StaticResource AllText}" 
+                                                       Text="{Binding 
+                                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}},
+                                                Path=Background}"/>
+                                            <TextBlock Grid.Column="2" Style="{StaticResource AllText}" Text="{Binding Val}"
+                                                       HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </Expander>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Grid.Column="2" Content="Add Currency" Width="100" Height="25" 
+        <ListBox Grid.Column="2" Grid.Row="1" ItemsSource="{Binding Currencies}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource AllText}" Text="{Binding Title}"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource AllText}" Text="{Binding Val}"
+                                                       HorizontalAlignment="Right"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <Button Grid.Column="2" Grid.Row="2" Content="Add Currency" Width="100" Height="25" 
                 Command="{Binding AddCurrency}"/>
+        
+        
+        
 
     </Grid>
 </Metro:MetroWindow>

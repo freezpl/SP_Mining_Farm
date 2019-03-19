@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MiningFarm.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace MiningFarm.Model
@@ -39,5 +41,16 @@ namespace MiningFarm.Model
         // Power / difficulty / 100000000
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        FarmCommand start;
+        public FarmCommand Start
+        {
+            get
+            {
+                return start ?? (start = new FarmCommand((curr) => {
+                    MessageBox.Show(curr.ToString());
+                }));
+            }
+        }
     }
 }
