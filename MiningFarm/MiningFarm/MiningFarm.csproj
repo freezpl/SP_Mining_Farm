@@ -84,6 +84,8 @@
   <ItemGroup>
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\Farm.cs" />
+    <Compile Include="Model\GlobalCurrency.cs" />
+    <Compile Include="Model\LocalCurrency.cs" />
     <Compile Include="Model\VideoCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

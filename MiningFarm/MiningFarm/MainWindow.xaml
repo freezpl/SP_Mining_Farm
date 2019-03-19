@@ -74,12 +74,10 @@
                                             </Grid.ColumnDefinitions>
 
                                             <ToggleButton Style="{StaticResource ToggleButtonStyle}" 
-                                                          Command="{Binding Start}" CommandParameter="{Binding}"/>
-                                            <!--<TextBlock Grid.Column="1" Style="{StaticResource AllText}" Text="{Binding Title}"/>-->
-                                            <TextBlock Grid.Column="1" Style="{StaticResource AllText}" 
-                                                       Text="{Binding 
-                                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}},
-                                                Path=Background}"/>
+                                                          Command="{Binding StartComm}" 
+                                                          CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
+                                            <TextBlock Grid.Column="1" Style="{StaticResource AllText}" Text="{Binding Title}"/>
+                                            
                                             <TextBlock Grid.Column="2" Style="{StaticResource AllText}" Text="{Binding Val}"
                                                        HorizontalAlignment="Right"/>
                                         </Grid>

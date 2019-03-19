@@ -36,7 +36,7 @@ namespace MiningFarm.Model
         }
 
 
-        public ObservableCollection<Currency> Currencies { get; set; }
+        public ObservableCollection<LocalCurrency> Currencies { get; set; }
 
         Action<VideoCard> removeMe;
        
@@ -48,13 +48,19 @@ namespace MiningFarm.Model
             power = bus * ddr;
             ActiveTasks = 0;
     
-            Currencies = new ObservableCollection<Currency>();
+            Currencies = new ObservableCollection<LocalCurrency>();
             foreach (var curr in currencies)
             {
-                Currencies.Add(new Currency(curr.Title));
+                Currencies.Add(new LocalCurrency(curr.Id, curr.Title, AddTask));
             }
             removeMe += remove;
         }
+
+        void AddTask(LocalCurrency lc)
+        {
+            MessageBox.Show(lc.Title);
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

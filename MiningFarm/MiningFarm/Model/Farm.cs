@@ -18,13 +18,13 @@ namespace MiningFarm.Model
         {
             Currencies = new ObservableCollection<Currency>()
             {
-                new Currency("BTC", 3989),
-                new Currency("ETH", 138),
-                new Currency("LTC", 59),
-                new Currency("EOS", 3.71),
-                new Currency("BCH", 160),
-                new Currency("ETC", 4.37),
-                new Currency("XMR", 51)
+                new GlobalCurrency("BTC", 3989),
+                new GlobalCurrency("ETH", 138),
+                new GlobalCurrency("LTC", 59),
+                new GlobalCurrency("EOS", 3.71),
+                new GlobalCurrency("BCH", 160),
+                new GlobalCurrency("ETC", 4.37),
+                new GlobalCurrency("XMR", 51)
             };
 
             Cards = new ObservableCollection<VideoCard>()

@@ -12,6 +12,8 @@ namespace MiningFarm.Model
 {
     public class Currency : INotifyPropertyChanged
     {
+        public Guid Id { get; set; }
+
         public string Title { get; set; }
 
         double val;
@@ -27,30 +29,17 @@ namespace MiningFarm.Model
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Val"));
             }
         }
-        
-        double diff;
 
-        public Currency(string title, double diff = 0)
+        public Currency(string title)
         {
             Title = title;
             Val = 0;
-            this.diff = diff;
         }
 
         //calculating
         // Power / difficulty / 100000000
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        FarmCommand start;
-        public FarmCommand Start
-        {
-            get
-            {
-                return start ?? (start = new FarmCommand((curr) => {
-                    MessageBox.Show(curr.ToString());
-                }));
-            }
-        }
+        
     }
 }
