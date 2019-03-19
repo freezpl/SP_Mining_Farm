@@ -6,7 +6,7 @@
         xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:MiningFarm"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Foreground="Red">
+        Title="Mining Farm" Height="450" Width="800" Foreground="Red">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="350"/>

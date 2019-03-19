@@ -10,10 +10,11 @@ using System.Windows;
 
 namespace MiningFarm.Model
 {
+
     public class VideoCard : INotifyPropertyChanged
     {
+        Guid id;
         public string Title { get; set; }
-        
         double power;
         public double Power
         {
@@ -39,28 +40,32 @@ namespace MiningFarm.Model
         public ObservableCollection<LocalCurrency> Currencies { get; set; }
 
         Action<VideoCard> removeMe;
-       
+        Action<VideoCard, LocalCurrency, bool> startAbortMining;
+
         public VideoCard(string title, int bus, int ddr, 
-            ObservableCollection<Currency> currencies, Action<VideoCard> remove)
+            ObservableCollection<GlobalCurrency> currencies, Action<VideoCard> remove,
+            Action<VideoCard, LocalCurrency, bool> startAbortMining)
         {
+            id = Guid.NewGuid();
             Title = title;
 
             power = bus * ddr;
             ActiveTasks = 0;
-    
+            
             Currencies = new ObservableCollection<LocalCurrency>();
             foreach (var curr in currencies)
             {
-                Currencies.Add(new LocalCurrency(curr.Id, curr.Title, AddTask));
+                Currencies.Add(new LocalCurrency(curr.Id, curr.Title, AddRemTask));
             }
+
             removeMe += remove;
+            this.startAbortMining = startAbortMining;
         }
 
-        void AddTask(LocalCurrency lc)
+        void AddRemTask(LocalCurrency lc, bool flag)
         {
-            MessageBox.Show(lc.Title);
+            startAbortMining(this, lc, flag);
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -75,7 +80,6 @@ namespace MiningFarm.Model
                 }));
             }
         }
-
         
     }
 }

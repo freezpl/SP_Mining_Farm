@@ -35,7 +35,6 @@ namespace MiningFarm.Model
             Title = title;
             Val = 0;
         }
-
         //calculating
         // Power / difficulty / 100000000
 

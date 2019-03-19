@@ -11,12 +11,12 @@ namespace MiningFarm.Model
 {
     public class Farm
     {
-        public ObservableCollection<Currency> Currencies { get; set; }
+        public ObservableCollection<GlobalCurrency> Currencies { get; set; }
         public ObservableCollection<VideoCard> Cards { get; set; }
 
         public Farm()
         {
-            Currencies = new ObservableCollection<Currency>()
+            Currencies = new ObservableCollection<GlobalCurrency>()
             {
                 new GlobalCurrency("BTC", 3989),
                 new GlobalCurrency("ETH", 138),
@@ -29,14 +29,18 @@ namespace MiningFarm.Model
 
             Cards = new ObservableCollection<VideoCard>()
             {
-                new VideoCard("Asus PCI-Ex GeForce GTX 1050 Ti", 128, 5, Currencies, myFunc),
-                new VideoCard("MSI PCI-Ex GeForce GTX 1660 Ti", 192, 6, Currencies, myFunc),
-                new VideoCard("MSI PCI-Ex GeForce RTX 2070", 265, 6, Currencies, myFunc),
-                new VideoCard("Gigabyte PCI-Ex GeForce GT 1030", 64, 5, Currencies, myFunc),
+                new VideoCard("Asus PCI-Ex GeForce GTX 1050 Ti", 128, 5, Currencies, RemoveCard, 
+                StartAbortMining),
+                new VideoCard("MSI PCI-Ex GeForce GTX 1660 Ti", 192, 6, Currencies, RemoveCard,
+                StartAbortMining),
+                new VideoCard("MSI PCI-Ex GeForce RTX 2070", 265, 6, Currencies, RemoveCard,
+                StartAbortMining),
+                new VideoCard("Gigabyte PCI-Ex GeForce GT 1030", 64, 5, Currencies, RemoveCard,
+                StartAbortMining),
             };
         }
 
-        void myFunc(VideoCard card)
+        void RemoveCard(VideoCard card)
         {
             try
             {
@@ -48,6 +52,14 @@ namespace MiningFarm.Model
             }
         }
 
+        void StartAbortMining(VideoCard card, LocalCurrency lc, bool flag)
+        {
+            GlobalCurrency activeCur = Currencies.FirstOrDefault(curr=>curr.Id == lc.Id);
+            if (activeCur == null)
+                return;
+            activeCur.Mining(card, lc, flag);
+        }
+
         //COMMANDS
         FarmCommand addCurrency;
         public FarmCommand AddCurrency
@@ -56,7 +68,7 @@ namespace MiningFarm.Model
             {
                 return addCurrency ?? (addCurrency = new FarmCommand((curr) =>
                 {
-                    Currencies.Add(new Currency("New "));
+                    Currencies.Add(new GlobalCurrency("New "));
                 }));
             }
         }

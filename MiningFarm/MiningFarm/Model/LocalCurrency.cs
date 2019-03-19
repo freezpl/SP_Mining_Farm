@@ -10,12 +10,13 @@ namespace MiningFarm.Model
 {
     public class LocalCurrency : Currency
     {
-        Action<LocalCurrency> on;
+        Action<LocalCurrency, bool> onOff;
 
-        public LocalCurrency(Guid id, string title, Action<LocalCurrency> on) : base(title)
+        public LocalCurrency(Guid id, string title, 
+            Action<LocalCurrency, bool> onOff) : base(title)
         {
             Id = id;
-            this.on = on;
+            this.onOff = onOff;
         }
 
         FarmCommand startComm;
@@ -24,12 +25,10 @@ namespace MiningFarm.Model
             get
             {
                 return startComm ?? (startComm = new FarmCommand((curr) => {
-                    if(Convert.ToBoolean(curr))
-                        on(this);
+                    if (Convert.ToBoolean(curr))
+                        onOff(this, true);
                     else
-                    {
-
-                    }
+                        onOff(this, false);
                 }));
             }
         }
