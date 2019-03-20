@@ -1,0 +1,67 @@
+﻿<Metro:MetroWindow x:Class="MiningFarm.Forms.AddVideoCard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:MiningFarm.Forms"
+        mc:Ignorable="d"
+        Title="AddVideoCard" Height="180" Width="500" ResizeMode="NoResize">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Style="{StaticResource FieldLable}">CARD NAME:</TextBlock>
+        <TextBox Name="titleField" Grid.Column="1" Style="{StaticResource FilledField}" 
+                 Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+            Path=CardTitle, ValidatesOnDataErrors=True}"/>
+        <TextBlock Grid.Row="1"  Style="{StaticResource FieldLable}">BUS (number):</TextBlock>
+        <TextBox Name="busField" Grid.Row="1" Grid.Column="1" Style="{StaticResource FilledField}"
+                 Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+            Path=Bus, ValidatesOnDataErrors=True}"/>
+        <TextBlock Grid.Row="2"  Style="{StaticResource FieldLable}">DDR TYPE (number):</TextBlock>
+        <TextBox Name="ddrField" Grid.Row="2" Grid.Column="1" Style="{StaticResource FilledField}"
+                 Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+            Path=DDR, ValidatesOnDataErrors=True}"/>
+
+        <WrapPanel Grid.Row="3" Grid.ColumnSpan="2" 
+                   HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button IsDefault="True" Click="AcceptClick" 
+                    Style="{StaticResource AcceptBtn}" 
+                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+            Path=IsAvialable}">
+                <!--<Button.Style>
+                    <Style BasedOn="{StaticResource AcceptBtn}" TargetType="Button">
+                        <Style.Setters>
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </Style.Setters>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=titleField,Path=(Validation.HasError)}" Value="false"></Condition>
+                                    <Condition Binding="{Binding ElementName=busField,Path=(Validation.HasError)}" Value="false"></Condition>
+                                    <Condition Binding="{Binding ElementName=ddrField,Path=(Validation.HasError)}" Value="false"></Condition>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="IsEnabled" Value="True"></Setter>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>-->
+                Add Card
+            </Button>
+            <Button Style="{StaticResource CancelBtn}"
+                IsCancel="True" MinWidth="60">Cancel</Button>
+        </WrapPanel>
+
+    </Grid>
+</Metro:MetroWindow>

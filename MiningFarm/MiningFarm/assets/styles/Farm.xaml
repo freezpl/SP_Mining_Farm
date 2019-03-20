@@ -114,5 +114,32 @@
         </Setter>
     </Style>
 
+    <Style x:Key="Btn" TargetType="Button" BasedOn="{StaticResource MetroButton}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="2" />
+    </Style>
+
+    <Style x:Key="AcceptBtn" TargetType="Button" BasedOn="{StaticResource Btn}">
+        <Setter Property="Background" Value="#FF3AD3A2" />
+    </Style>
+
+    <Style x:Key="CancelBtn" TargetType="Button" BasedOn="{StaticResource Btn}">
+        <Setter Property="Background" Value="#FFFF9292" />
+    </Style>
+
+
+    <!--Modal windows fields-->
+    <Style x:Key="FieldLable" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="DarkCyan" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0 0 8 0" />
+    </Style>
+
+    <Style x:Key="FilledField" TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
+        <Setter Property="Foreground" Value="DarkCyan" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="1" />
+    </Style>
 
 </ResourceDictionary>

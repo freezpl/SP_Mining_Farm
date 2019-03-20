@@ -1,4 +1,5 @@
-﻿using MiningFarm.Helpers;
+﻿using MiningFarm.Forms;
+using MiningFarm.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,7 +30,7 @@ namespace MiningFarm.Model
 
             Cards = new ObservableCollection<VideoCard>()
             {
-                new VideoCard("Asus PCI-Ex GeForce GTX 1050 Ti", 128, 5, Currencies, RemoveCard, 
+                new VideoCard("Asus PCI-Ex GeForce GTX 1050 Ti", 128, 5, Currencies, RemoveCard,
                 StartAbortMining),
                 new VideoCard("MSI PCI-Ex GeForce GTX 1660 Ti", 192, 6, Currencies, RemoveCard,
                 StartAbortMining),
@@ -46,7 +47,7 @@ namespace MiningFarm.Model
             {
                 Cards.Remove(card);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -54,7 +55,7 @@ namespace MiningFarm.Model
 
         void StartAbortMining(VideoCard card, LocalCurrency lc, bool flag)
         {
-            GlobalCurrency activeCur = Currencies.FirstOrDefault(curr=>curr.Id == lc.Id);
+            GlobalCurrency activeCur = Currencies.FirstOrDefault(curr => curr.Id == lc.Id);
             if (activeCur == null)
                 return;
             activeCur.Mining(card, lc, flag);
@@ -69,6 +70,19 @@ namespace MiningFarm.Model
                 return addCurrency ?? (addCurrency = new FarmCommand((curr) =>
                 {
                     Currencies.Add(new GlobalCurrency("New "));
+                }));
+            }
+        }
+
+        FarmCommand addVideoCard;
+        public FarmCommand AddVideoCard
+        {
+            get
+            {
+                return addVideoCard ?? (addVideoCard = new FarmCommand((o) =>
+                {
+                    AddVideoCard cardForm = new AddVideoCard();
+                    cardForm.ShowDialog();
                 }));
             }
         }
