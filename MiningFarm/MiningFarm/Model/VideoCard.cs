@@ -76,6 +76,12 @@ namespace MiningFarm.Model
             get
             {
                 return remove ?? (remove = new FarmCommand((curr) => {
+                    if(ActiveTasks > 0)
+                    {
+                        MessageBox.Show("This card has "+ ActiveTasks +" active tasks!\n Remove active tasks please.",
+                            "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
                     removeMe(this);
                 }));
             }

@@ -11,6 +11,8 @@ namespace MiningFarm.Model
 {
     public class GlobalCurrency : Currency
     {
+        public static object locker = new object();
+
         double diff;
         Dictionary<VideoCard, Thread> treads;
 
@@ -23,7 +25,7 @@ namespace MiningFarm.Model
 
         public void Mining(VideoCard card, LocalCurrency lc, bool flag)
         {
-            if(flag)
+            if (flag)
             {
                 if (treads.ContainsKey(card))
                     return;
@@ -46,11 +48,16 @@ namespace MiningFarm.Model
 
         void Work(VideoCard card, LocalCurrency lc)
         {
-            while(true)
+            while (true)
             {
                 Thread.Sleep(1000);
                 double v = 1;
-                Val += v;
+
+                lock (locker)
+                {
+                    Val += v;
+                }
+
                 lc.Val += v;
             }
         }

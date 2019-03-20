@@ -105,7 +105,9 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
+        <Button Grid.Row="2" Content="Add Video Card" Command="{Binding AddCurrency}"/>
+
         <Button Grid.Column="2" Grid.Row="2" Content="Add Currency" Width="100" Height="25" 
                 Command="{Binding AddCurrency}"/>
         
