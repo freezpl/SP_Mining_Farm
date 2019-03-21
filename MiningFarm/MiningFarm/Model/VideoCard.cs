@@ -67,6 +67,22 @@ namespace MiningFarm.Model
             startAbortMining(this, lc, flag);
         }
 
+        public void AddCurr(GlobalCurrency gc)
+        {
+            Currencies.Add(new LocalCurrency(gc.Id, gc.Title, AddRemTask));
+        }
+
+        public void RemoveCurr(Guid id)
+        {
+            LocalCurrency lc = Currencies.FirstOrDefault(c => c.Id == id);
+            if (lc != null)
+            {
+                if (lc.IsAct)
+                    ActiveTasks--;
+                Currencies.Remove(lc);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         //COMMANDS
@@ -76,13 +92,17 @@ namespace MiningFarm.Model
             get
             {
                 return remove ?? (remove = new FarmCommand((curr) => {
-                    if(ActiveTasks > 0)
+                    
+                    if (ActiveTasks > 0)
                     {
                         MessageBox.Show("This card has "+ ActiveTasks +" active tasks!\n Remove active tasks please.",
                             "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
-                    removeMe(this);
+                    MessageBoxResult res = MessageBox.Show("Are you sure? Remove this card?",
+                            "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    if(res == MessageBoxResult.OK)
+                        removeMe(this);
                 }));
             }
         }

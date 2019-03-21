@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using MiningFarm.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,17 +18,15 @@ using System.Windows.Shapes;
 namespace MiningFarm.Forms
 {
     /// <summary>
-    /// Interaction logic for AddVideoCard.xaml
+    /// Interaction logic for AddCurrency.xaml
     /// </summary>
-    public partial class AddVideoCard : MetroWindow, IDataErrorInfo, INotifyPropertyChanged
+    public partial class AddCurrency : MetroWindow, IDataErrorInfo, INotifyPropertyChanged
     {
-        public string CardTitle { get; set; }
-        public string Bus { get; set; }
-        public string DDR { get; set; }
+        public string CurrTitle { get; set; }
+        public string Kurs { get; set; }
 
         bool titleAvi;
-        bool busAvi;
-        bool ddrAvi;
+        bool kursAvi;
 
         bool isAvialable;
         public bool IsAvialable
@@ -45,11 +42,11 @@ namespace MiningFarm.Forms
             }
         }
 
-        public AddVideoCard()
+        public AddCurrency()
         {
             InitializeComponent();
         }
-        
+
         private void AcceptClick(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
@@ -65,48 +62,31 @@ namespace MiningFarm.Forms
                 string error = String.Empty;
                 switch (columnName)
                 {
-                    case nameof(CardTitle):
-                        if (CardTitle.Length < 1)
+                    case nameof(CurrTitle):
+                        if (CurrTitle.Length < 1)
                         {
-                            error = "Caard Model is to short!";
+                            error = "Currency title to short!";
                             titleAvi = false;
                         }
                         else
                             titleAvi = true;
                         break;
-                    case nameof(Bus):
-                        if(Bus.Length == 0)
+                    case nameof(Kurs):
+                        if (Kurs.Length == 0)
                         {
                             error = "No bus!";
-                            busAvi = false;
+                            kursAvi = false;
                             break;
                         }
-                        Regex regex = new Regex(@"^[0-9]*$");
-                        Match match = regex.Match(Bus);
+                        Regex regex = new Regex(@"^[0-9]+(\,[0-9]+)?$");
+                        Match match = regex.Match(Kurs);
                         if (!match.Success)
                         {
                             error = "Bus width must be a number!";
-                            busAvi = false;
+                            kursAvi = false;
                         }
                         else
-                            busAvi = true;
-                        break;
-                    case nameof(DDR):
-                        if (DDR.Length == 0)
-                        {
-                            error = "No ddr!";
-                            ddrAvi = false;
-                            break;
-                        }
-                        Regex regex2 = new Regex(@"^[0-9]*$");
-                        Match match2 = regex2.Match(DDR);
-                        if (!match2.Success)
-                        {
-                            error = "Bus width must be a number!";
-                            ddrAvi = false;
-                        }
-                        else
-                            ddrAvi = true;
+                            kursAvi = true;
                         break;
                 }
                 AccessTrigger();
@@ -116,12 +96,12 @@ namespace MiningFarm.Forms
 
         void AccessTrigger()
         {
-            if (titleAvi && busAvi && ddrAvi)
+            if (titleAvi && kursAvi)
                 IsAvialable = true;
             else
                 IsAvialable = false;
         }
-        
+
         public string Error => throw new NotImplementedException();
     }
 }

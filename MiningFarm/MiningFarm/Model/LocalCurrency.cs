@@ -12,6 +12,9 @@ namespace MiningFarm.Model
     {
         Action<LocalCurrency, bool> onOff;
 
+        bool isAct;
+        public bool IsAct { get { return isAct; } }
+
         public LocalCurrency(Guid id, string title, 
             Action<LocalCurrency, bool> onOff) : base(title)
         {
@@ -26,9 +29,15 @@ namespace MiningFarm.Model
             {
                 return startComm ?? (startComm = new FarmCommand((curr) => {
                     if (Convert.ToBoolean(curr))
+                    {
                         onOff(this, true);
+                        isAct = true;
+                    }
                     else
+                    {
                         onOff(this, false);
+                        isAct = false;
+                    }
                 }));
             }
         }

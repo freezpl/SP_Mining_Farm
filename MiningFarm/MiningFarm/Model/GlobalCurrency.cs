@@ -16,6 +16,14 @@ namespace MiningFarm.Model
         double diff;
         Dictionary<VideoCard, Thread> treads;
 
+        public int ThreadCount
+        {
+            get
+            {
+                return treads.Count;
+            }
+        }
+
         public GlobalCurrency(string title, double diff = 0) : base(title)
         {
             this.diff = diff;
@@ -51,15 +59,20 @@ namespace MiningFarm.Model
             while (true)
             {
                 Thread.Sleep(1000);
-                double v = 1;
-
+                double v = card.Power/card.ActiveTasks/diff/100000000;
                 lock (locker)
                 {
                     Val += v;
                 }
-
                 lc.Val += v;
             }
+        }
+
+        public void AbortAllTasks()
+        {
+            foreach (KeyValuePair<VideoCard, Thread> item in treads)
+                item.Value.Abort();
+            treads.Clear();
         }
     }
 }

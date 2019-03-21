@@ -77,8 +77,7 @@
                                                           Command="{Binding StartComm}" 
                                                           CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                                             <TextBlock Grid.Column="1" Style="{StaticResource AllText}" Text="{Binding Title}"/>
-                                            
-                                            <TextBlock Grid.Column="2" Style="{StaticResource AllText}" Text="{Binding Val}"
+                                            <TextBlock Grid.Column="2" Style="{StaticResource AllText}" Text="{Binding Val, StringFormat={}{0:#,#.000000000}}"
                                                        HorizontalAlignment="Right"/>
                                         </Grid>
                                     </DataTemplate>
@@ -90,7 +89,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox Grid.Column="2" Grid.Row="1" ItemsSource="{Binding Currencies}">
+        <ListBox Grid.Column="2" Grid.Row="1" ItemsSource="{Binding Currencies}" SelectedItem="{Binding ActiveCurr}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -99,7 +98,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Style="{StaticResource AllText}" Text="{Binding Title}"/>
-                        <TextBlock Grid.Column="1" Style="{StaticResource AllText}" Text="{Binding Val}"
+                        <TextBlock Grid.Column="1" Style="{StaticResource AllText}" Text="{Binding Val, StringFormat={}{0:#,#.000000000}}"
                                                        HorizontalAlignment="Right"/>
                     </Grid>
                 </DataTemplate>
@@ -109,11 +108,16 @@
         <Button Grid.Row="2" Style="{StaticResource AcceptBtn}" 
                 Content="Add Video Card" Command="{Binding AddVideoCard}"/>
 
-        <Button Grid.Column="2" Grid.Row="2" Content="Add Currency" Width="100" Height="25" 
-                Command="{Binding AddCurrency}"/>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource AcceptBtn}" 
+                Content="Add Currency" Command="{Binding AddCurr}"/>
+            <Button Grid.Column="1" Style="{StaticResource CancelBtn}" 
+                Content="Remove Currency" Command="{Binding RemoveCurrency}"/>
+        </Grid>
         
-        
-        
-
     </Grid>
 </Metro:MetroWindow>

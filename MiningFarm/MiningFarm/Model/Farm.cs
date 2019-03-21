@@ -15,6 +15,8 @@ namespace MiningFarm.Model
         public ObservableCollection<GlobalCurrency> Currencies { get; set; }
         public ObservableCollection<VideoCard> Cards { get; set; }
 
+        public GlobalCurrency ActiveCurr { get; set; }
+        
         public Farm()
         {
             Currencies = new ObservableCollection<GlobalCurrency>()
@@ -62,17 +64,6 @@ namespace MiningFarm.Model
         }
 
         //COMMANDS
-        FarmCommand addCurrency;
-        public FarmCommand AddCurrency
-        {
-            get
-            {
-                return addCurrency ?? (addCurrency = new FarmCommand((curr) =>
-                {
-                    Currencies.Add(new GlobalCurrency("New "));
-                }));
-            }
-        }
 
         FarmCommand addVideoCard;
         public FarmCommand AddVideoCard
@@ -83,6 +74,64 @@ namespace MiningFarm.Model
                 {
                     AddVideoCard cardForm = new AddVideoCard();
                     cardForm.ShowDialog();
+                    if(cardForm.DialogResult == true)
+                    {
+                        Cards.Add(new VideoCard(cardForm.CardTitle, Convert.ToInt32(cardForm.Bus), Convert.ToInt32(cardForm.DDR),
+                            Currencies, RemoveCard, StartAbortMining));
+                    }
+
+                }));
+            }
+        }
+
+        FarmCommand addCurr;
+        public FarmCommand AddCurr
+        {
+            get
+            {
+                return addCurr ?? (addCurr = new FarmCommand((o) =>
+                {
+                    AddCurrency cardForm = new AddCurrency();
+                    cardForm.ShowDialog();
+                    
+                    if (cardForm.DialogResult == true)
+                    {
+                        GlobalCurrency gc = new GlobalCurrency(cardForm.CurrTitle, Convert.ToDouble(cardForm.Kurs));
+                        Currencies.Add(gc);
+                        foreach(var card in Cards)
+                            card.AddCurr(gc);
+                    }
+                }));
+            }
+        }
+
+        FarmCommand removeCurrency;
+        public FarmCommand RemoveCurrency
+        {
+            get
+            {
+                return removeCurrency ?? (removeCurrency = new FarmCommand((curr) =>
+                {
+                    if (ActiveCurr != null)
+                    {
+                        MessageBoxResult res;
+                        if (ActiveCurr.ThreadCount > 0)
+                            res = MessageBox.Show(ActiveCurr.ThreadCount + " videocards use this currency!\n Remove currency?", 
+                                "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        else
+                            res = MessageBox.Show("Remove currency?", "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                        if(ActiveCurr.ThreadCount > 0)
+                            ActiveCurr.AbortAllTasks();
+
+                        foreach (var card in Cards)
+                           card.RemoveCurr(ActiveCurr.Id);
+                            
+                        
+                        Currencies.Remove(ActiveCurr);
+                    }
+                    else
+                        MessageBox.Show("No currency selected!", "Attention!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }));
             }
         }

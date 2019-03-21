@@ -1,0 +1,41 @@
+﻿<Metro:MetroWindow x:Class="MiningFarm.Forms.AddCurrency"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:MiningFarm.Forms"
+        mc:Ignorable="d"
+        Title="AddCurrency" Height="150" Width="300">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Style="{StaticResource FieldLable}">CURRENCY TITLE:</TextBlock>
+        <TextBox Name="titleField" Grid.Column="1" Style="{StaticResource FilledField}" 
+                 Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+            Path=CurrTitle, ValidatesOnDataErrors=True}"/>
+        <TextBlock Grid.Row="1"  Style="{StaticResource FieldLable}">Exch. Rate (number):</TextBlock>
+        <TextBox Name="busField" Grid.Row="1" Grid.Column="1" Style="{StaticResource FilledField}"
+                 Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+            Path=Kurs, ValidatesOnDataErrors=True}"/>
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" 
+                   HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button IsDefault="True" Click="AcceptClick" 
+                    Style="{StaticResource AcceptBtn}" 
+                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+            Path=IsAvialable}">
+                Add Currency
+            </Button>
+            <Button Style="{StaticResource CancelBtn}"
+                IsCancel="True" MinWidth="60">Cancel</Button>
+        </WrapPanel>
+    </Grid>
+</Metro:MetroWindow>
